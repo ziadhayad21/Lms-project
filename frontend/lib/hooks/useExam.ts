@@ -18,7 +18,7 @@ export function useExam(courseId: string, examId: string) {
   useEffect(() => {
     setLoading(true);
     examApi
-      .getExam(courseId, examId)
+      .getCourseExam(courseId, examId)
       .then((res) => {
         setExam(res.data.exam);
         setAttemptCount(res.data.attemptCount ?? 0);
@@ -65,7 +65,7 @@ export function useExam(courseId: string, examId: string) {
         })),
         timeTakenSeconds: Math.round((Date.now() - startTime.current) / 1000),
       };
-      const res = await examApi.submitExam(courseId, examId, payload);
+      const res = await examApi.submitCourseExam(courseId, examId, payload);
       setResult(res.data.result);
     } catch (e: any) {
       setError(e.message ?? 'Submission failed.');

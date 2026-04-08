@@ -11,7 +11,14 @@ interface Props {
   course?:  Course; // Provided when editing
 }
 
-const LEVELS:      CourseLevel[]    = ['beginner', 'intermediate', 'advanced'];
+const LEVELS:      CourseLevel[]    = [
+  'أولى إعدادي',
+  'تانية إعدادي',
+  'تالتة إعدادي',
+  'أولى ثانوي',
+  'تانية ثانوي',
+  'تالتة ثانوي'
+];
 const CATEGORIES:  CourseCategory[] = ['grammar', 'speaking', 'writing', 'reading', 'listening', 'vocabulary', 'general'];
 
 export default function CourseForm({ mode, course }: Props) {
@@ -19,7 +26,7 @@ export default function CourseForm({ mode, course }: Props) {
 
   const [title,       setTitle]       = useState(course?.title       ?? '');
   const [description, setDescription] = useState(course?.description ?? '');
-  const [level,       setLevel]       = useState<CourseLevel>(course?.level   ?? 'beginner');
+  const [level,       setLevel]       = useState<CourseLevel>(course?.level   ?? 'أولى إعدادي');
   const [category,    setCategory]    = useState<CourseCategory>(course?.category ?? 'general');
   const [tags,        setTags]        = useState((course?.tags ?? []).join(', '));
   const [thumbnail,   setThumbnail]   = useState<File | null>(null);

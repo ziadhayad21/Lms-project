@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Clock, Play, FileText, CheckCircle, ArrowRight, AlertCircle, Trophy, BarChart3, ChevronRight } from 'lucide-react';
-import { examApi } from '@/lib/api/exam.api';
+import { examApi } from '@/lib/api/exams.api';
 
 interface ExamTakerProps {
   courseId: string;
@@ -18,17 +19,6 @@ export default function ExamTaker({ courseId, exam }: ExamTakerProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<any>(null);
 
-  // Timer logic
-  useEffect(() => {
-    if (timeLeft === null || result) return;
-    if (timeLeft === 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft((prev) => (prev ?? 0) - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft, result]);
-
   const handleSelectOption = (questionId: string, optionIndex: number) => {
     if (result) return;
     setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
@@ -39,7 +29,7 @@ export default function ExamTaker({ courseId, exam }: ExamTakerProps) {
     setAnswers((prev) => ({ ...prev, [questionId]: text }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
@@ -59,7 +49,18 @@ export default function ExamTaker({ courseId, exam }: ExamTakerProps) {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [answers, exam._id, exam.timeLimit, isSubmitting, timeLeft]);
+
+  // Timer logic
+  useEffect(() => {
+    if (timeLeft === null || result) return;
+    if (timeLeft === 0) {
+      handleSubmit();
+      return;
+    }
+    const timer = setInterval(() => setTimeLeft((prev) => (prev ?? 0) - 1), 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft, result, handleSubmit]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -227,7 +228,14 @@ export default function ExamTaker({ courseId, exam }: ExamTakerProps) {
                 <p className="text-xs font-black text-indigo-600 uppercase tracking-[0.2em] mb-4">Question {currentQuestionIndex + 1}</p>
                 {currentQuestion.questionImage && (
                   <div className="mb-6 rounded-2xl overflow-hidden max-h-[300px] border border-slate-100 bg-slate-50 flex items-center justify-center p-4">
-                     <img src={currentQuestion.questionImage} alt="Question Graphic" className="max-h-full object-contain" />
+                     <Image 
+                       src={currentQuestion.questionImage} 
+                       alt="Question Graphic" 
+                       width={600} 
+                       height={300} 
+                       unoptimized 
+                       className="max-h-full object-contain" 
+                     />
                   </div>
                 )}
                 <h3 className="text-3xl font-black text-slate-800 leading-tight">

@@ -152,7 +152,7 @@ export default function ExamBuilder({ courseId }: Props) {
         })),
       } as any;
 
-      await examApi.create(courseId, payload);
+      await examApi.createCourseExam(courseId, payload);
       router.push(`/teacher/courses/${courseId}`);
       router.refresh();
     } catch (e: any) {

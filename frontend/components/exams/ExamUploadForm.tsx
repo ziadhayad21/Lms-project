@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { 
   Trophy, 
   Trash2, 
@@ -16,7 +17,7 @@ import {
   Save,
   Check
 } from 'lucide-react';
-import { examApi } from '@/lib/api/exam.api';
+import { examApi } from '@/lib/api/exams.api';
 import { uploadApi } from '@/lib/api/upload.api';
 import type { CreateExamPayload } from '@/types';
 
@@ -318,7 +319,14 @@ export default function ExamUploadForm({}: ExamUploadFormProps) {
                 <div>
                   {question.previewUrl && (
                     <div className="mb-4 rounded-xl overflow-hidden max-h-[200px] inline-block border border-slate-100 shadow-sm relative group">
-                       <img src={question.previewUrl} alt="Question Reference" className="max-h-[200px] object-contain" />
+                       <Image 
+                         src={question.previewUrl} 
+                         alt="Question Reference" 
+                         width={400} 
+                         height={200} 
+                         unoptimized 
+                         className="max-h-[200px] object-contain" 
+                       />
                     </div>
                   )}
                   <textarea
