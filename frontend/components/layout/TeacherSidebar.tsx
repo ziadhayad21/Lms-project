@@ -27,8 +27,8 @@ export default function TeacherSidebar() {
           <GraduationCap className="text-white w-7 h-7" />
         </div>
         <div className="flex flex-col">
-          <span className="font-black text-slate-800 tracking-tight leading-none text-lg">EnglishPro</span>
-          <span className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mt-1">Faculty</span>
+          <span className="font-black text-slate-800 tracking-tight leading-none text-lg">Mr Abdallah Elhayad</span>
+          <span className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mt-1 text-center">Faculty</span>
         </div>
       </div>
 

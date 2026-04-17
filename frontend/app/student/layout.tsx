@@ -6,7 +6,7 @@ import { getServerAuthUser } from '@/lib/server/auth';
 export default async function StudentLayout({ children }: { children: React.ReactNode }) {
   const user = await getServerAuthUser();
   if (!user) redirect('/login');
-  if (user.role !== 'student') redirect('/teacher/dashboard');
+  if (user.role !== 'student' && user.role !== 'admin') redirect('/teacher/dashboard');
   const isPending = user.status === 'pending';
 
 

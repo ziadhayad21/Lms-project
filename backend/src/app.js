@@ -30,17 +30,26 @@ app.use(
 );
 
 // ─── CORS ────────────────────────────────────────────────────────────────────
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:3000')
-  .split(',')
-  .map((s) => s.trim())
-  .filter(Boolean);
+const allowedOrigins = [
+  'https://lms-frontend.vercel.app',
+  'https://lms-frontend-orcin-nine.vercel.app',
+  ...(process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map(o => o.trim()) : [])
+];
 
 app.use(
   cors({
     origin(origin, callback) {
+      console.log('Incoming Request Origin:', origin);
       // Allow non-browser clients (like server-to-server / curl) with no Origin header
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      
+      const isAllowed = allowedOrigins.includes(origin) || 
+                        origin.includes('vercel.app') || 
+                        origin.includes('localhost');
+      
+      if (isAllowed) {
+        return callback(null, true);
+      }
       return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,

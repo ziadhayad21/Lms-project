@@ -6,7 +6,7 @@ import { getServerAuthUser } from '@/lib/server/auth';
 export default async function TeacherLayout({ children }: { children: React.ReactNode }) {
   const user = await getServerAuthUser();
   if (!user) redirect('/login');
-  if (user.role !== 'teacher') redirect('/student/dashboard');
+  if (user.role !== 'teacher' && user.role !== 'admin') redirect('/student/dashboard');
 
   return (
     <div className="min-h-screen bg-slate-50 flex">

@@ -5,7 +5,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+// Use relative URL dynamically if in browser to take advantage of Next.js rewrites and solve cross-domain cookies
+const BASE_URL = typeof window !== 'undefined' ? '/api/v1' : (process.env.NEXT_PUBLIC_API_URL || 'https://lms-backend-production-3598.up.railway.app/api/v1');
 const UPLOAD_TIMEOUT_MS = 10 * 60 * 1000; // Large video uploads can take several minutes
 
 /** Client whose response interceptor returns `response.data` (unwrapped). */

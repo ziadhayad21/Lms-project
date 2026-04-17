@@ -25,6 +25,20 @@ const nextConfig = {
       },
     ];
   },
+
+  async rewrites() {
+    const backendUrl = process.env.API_URL || 'https://lms-backend-production-3598.up.railway.app';
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${backendUrl}/api/:path*`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${backendUrl}/uploads/:path*`,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
